@@ -1,11 +1,13 @@
-import LinkedList from "./linkedList/linkedList";
+// import LinkedList from "./linkedList/linkedList";
+
 
 class HashTable {
   private size: number;
-  private data: LinkedList<string>[] = [];
+  private buckets: Map<string, string>[];
 
   constructor(size: number) {
     this.size = size;
+    this.buckets = new Array(size).fill(undefined).map(() => new Map());
   }
   
   private hash(value: string): number {
@@ -13,29 +15,28 @@ class HashTable {
     return sum % this.size;
   }
 
-  insert(value: string): void {
-    const index = this.hash(value);
-
-    if (!this.data[index]) {
-      this.data[index] = new LinkedList<string>((a: string, b: string) => a ===b);
-    }
-
-    this.data[index].append(value);
+  insert(key: string, value: string): void {
+    const index = this.hash(key);
+    this.buckets[index].set(key, value);
   }
 
-  search(value: string): string | null {
-    const index = this.hash(value);
-    if (this.data[index]) {
-      return this.data[index].search(value)!.data;
-    }
+  remove(key: string): string {
+    const index = this.hash(key);
+    const deleted = this.buckets[index].get(key);
+    this.buckets[index].delete(key);
+    return deleted;
+  }
 
-    return null;
+  search(key: string): string | null {
+    const index = this.hash(key);
+    return this.buckets[index].get(key);
   }
 }
 
 const hashTable = new HashTable(10);
 
-hashTable.insert('first');
-hashTable.insert('second');
+hashTable.insert('test1', 'hello');
+hashTable.insert('test2', 'world');
 
-console.log(hashTable.search('first'));
+console.log(hashTable.search('test1'));
+console.log(hashTable.search('test2'));

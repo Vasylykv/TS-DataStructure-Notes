@@ -9,11 +9,11 @@ export default class Queue<T> {
     this.tail = 0;
   }
 
-  get isEmpty() {
-    return this.size === 0;
+  isEmpty() {
+    return this.getSize() === 0;
   }
 
-  get size() {
+  getSize() {
     return this.tail - this.head;
   }
 
@@ -23,7 +23,7 @@ export default class Queue<T> {
   }
 
   dequeue(): T | undefined {
-    if (this.isEmpty) {
+    if (this.isEmpty()) {
       return undefined;
     }
     const value = this.queue[this.head];
@@ -33,7 +33,7 @@ export default class Queue<T> {
   }
 
   peek(): T | undefined {
-    if (this.isEmpty) {
+    if (this.isEmpty()) {
       return undefined;
     }
     return this.queue[this.head];
@@ -46,7 +46,7 @@ export default class Queue<T> {
   }
 
   print(): string {
-    if (this.isEmpty) {
+    if (this.isEmpty()) {
       return '';
     }
     let values = [];

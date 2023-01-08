@@ -1,5 +1,5 @@
 // null == undefined -> true
-import Queue from "../queue";
+import Queue from "./queue";
 
 class BSTNode {
   public value: number;
